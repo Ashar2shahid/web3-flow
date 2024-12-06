@@ -31,6 +31,7 @@ import PrivateKeyModal from "./nodes/PrivateKey/PrivateKeyModal";
 import TaskModal from "./nodes/Task/TaskModal";
 import LoopModal from "./nodes/Loop/LoopModal";
 import EventListenerModal from "./nodes/EventListener/EventListenerModal";
+import SelectDataModal from "./nodes/SelectData/SelectDataModal";
 
 const edgeTypes = {
   smoothstep: CustomEdge,
@@ -50,6 +51,7 @@ const nodeToModalType = {
   eventListener: "eventListener",
   task: "task",
   loop: "loop",
+  selectData: "selectData",
 } as const;
 
 export default function WorkflowCanvas() {
@@ -167,6 +169,7 @@ export default function WorkflowCanvas() {
       <EventListenerModal />
       <TaskModal />
       <LoopModal />
+      <SelectDataModal />
     </div>
   );
 }

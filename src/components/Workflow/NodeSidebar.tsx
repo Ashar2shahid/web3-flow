@@ -40,6 +40,12 @@ const nodeCategories = [
         description: "Loop over items",
       },
       {
+        type: "selectData",
+        label: "SelectData",
+        icon: Filter,
+        description: "Set input parameter",
+      },
+      {
         type: "switch",
         label: "Switch",
         icon: GitBranch,

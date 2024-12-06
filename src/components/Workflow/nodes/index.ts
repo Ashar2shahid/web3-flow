@@ -11,6 +11,7 @@ import HttpRequestNode from "./HttpRequest/HttpRequestNode";
 import EmailNode from "./Email/EmailNode";
 import PrivateKeyNode from "./PrivateKey/PrivateKeyNode";
 import EventListenerNode from "./EventListener/EventListenerNode";
+import SelectDataNode from "./SelectData/SelectDataNode";
 
 export const nodeTypes = {
   task: TaskNode,
@@ -22,6 +23,7 @@ export const nodeTypes = {
   filter: FilterNode,
   code: CodeNode,
   loop: LoopNode,
+  selectData: SelectDataNode,
   delay: DelayNode,
   webhook: WebhookNode,
   http: HttpRequestNode,
