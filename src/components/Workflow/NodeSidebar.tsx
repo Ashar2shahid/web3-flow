@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AppWindow,
   GitBranch,
@@ -19,141 +19,148 @@ import {
   Globe,
   RefreshCw,
   X,
-} from 'lucide-react';
-import { useWorkflowStore } from '../../stores/workflowStore';
-import { useSidebarStore } from '../../stores/sidebarStore';
+} from "lucide-react";
+import { useWorkflowStore } from "../../stores/workflowStore";
+import { useSidebarStore } from "../../stores/sidebarStore";
 
 const nodeCategories = [
   {
-    name: 'Flow',
+    name: "Flow",
     nodes: [
       {
-        type: 'conditional',
-        label: 'If Condition',
+        type: "conditional",
+        label: "If Condition",
         icon: GitBranch,
-        description: 'Branch workflow based on condition',
+        description: "Branch workflow based on condition",
       },
       {
-        type: 'loop',
-        label: 'Loop',
+        type: "loop",
+        label: "Loop",
         icon: RefreshCw,
-        description: 'Loop over items',
+        description: "Loop over items",
       },
       {
-        type: 'switch',
-        label: 'Switch',
+        type: "switch",
+        label: "Switch",
         icon: GitBranch,
-        description: 'Multiple conditional branches',
+        description: "Multiple conditional branches",
       },
       {
-        type: 'delay',
-        label: 'Time Delay',
+        type: "delay",
+        label: "Time Delay",
         icon: TimerReset,
-        description: 'Add delay between steps',
+        description: "Add delay between steps",
       },
     ],
   },
   {
-    name: 'App',
+    name: "App",
     nodes: [
       {
-        type: 'uniswap',
-        label: 'Uniswap',
+        type: "uniswap",
+        label: "Uniswap",
         icon: ArrowRightLeft,
-        description: 'Interact with Uniswap protocol',
+        description: "Interact with Uniswap protocol",
       },
       {
-        type: 'textscreener',
-        label: 'Text Screener',
+        type: "textscreener",
+        label: "Text Screener",
         icon: FileText,
-        description: 'Screen and analyze text content',
+        description: "Screen and analyze text content",
       },
       {
-        type: 'googlesheets',
-        label: 'Google Sheets',
+        type: "googlesheets",
+        label: "Google Sheets",
         icon: Table,
-        description: 'Interact with Google Sheets',
+        description: "Interact with Google Sheets",
       },
     ],
   },
   {
-    name: 'Transformation',
+    name: "Transformation",
     nodes: [
       {
-        type: 'filter',
-        label: 'Filter',
+        type: "filter",
+        label: "Filter",
         icon: Filter,
-        description: 'Filter data based on conditions',
+        description: "Filter data based on conditions",
       },
       {
-        type: 'code',
-        label: 'Code',
+        type: "code",
+        label: "Code",
         icon: Code,
-        description: 'Execute custom code',
+        description: "Execute custom code",
       },
       {
-        type: 'summarize',
-        label: 'Summarize',
+        type: "summarize",
+        label: "Summarize",
         icon: FileText,
-        description: 'Summarize data or text',
+        description: "Summarize data or text",
       },
     ],
   },
   {
-    name: 'Web3',
+    name: "Web3",
     nodes: [
       {
-        type: 'privatekey',
-        label: 'Private Key',
+        type: "eventListener",
+        label: "Event Listener",
         icon: Wallet,
-        description: 'Manage private keys',
+        description: "Watch wallet events",
+      },
+
+      {
+        type: "privatekey",
+        label: "Private Key",
+        icon: Wallet,
+        description: "Manage private keys",
       },
       {
-        type: 'contract-events',
-        label: 'Contract Events',
+        type: "contract-events",
+        label: "Contract Events",
         icon: Blocks,
-        description: 'Listen to contract events',
+        description: "Listen to contract events",
       },
       {
-        type: 'contract-transactions',
-        label: 'Contract Transactions',
+        type: "contract-transactions",
+        label: "Contract Transactions",
         icon: Blocks,
-        description: 'Monitor contract transactions',
+        description: "Monitor contract transactions",
       },
       {
-        type: 'contract-function',
-        label: 'Contract Function',
+        type: "contract-function",
+        label: "Contract Function",
         icon: FileCode,
-        description: 'Execute contract functions',
+        description: "Execute contract functions",
       },
     ],
   },
   {
-    name: 'Core',
+    name: "Core",
     nodes: [
       {
-        type: 'webhook',
-        label: 'Webhook',
+        type: "webhook",
+        label: "Webhook",
         icon: Webhook,
-        description: 'Handle HTTP webhooks',
+        description: "Handle HTTP webhooks",
       },
       {
-        type: 'http',
-        label: 'HTTP Request',
+        type: "http",
+        label: "HTTP Request",
         icon: Globe,
-        description: 'Make HTTP requests',
+        description: "Make HTTP requests",
       },
       {
-        type: 'code',
-        label: 'Code',
+        type: "code",
+        label: "Code",
         icon: Code,
-        description: 'Execute custom code',
+        description: "Execute custom code",
       },
       {
-        type: 'email',
-        label: 'Email',
+        type: "email",
+        label: "Email",
         icon: Mail,
-        description: 'Send email notifications',
+        description: "Send email notifications",
       },
     ],
   },
@@ -173,12 +180,12 @@ export default function NodeSidebar() {
         type,
         position: { x: 0, y: 0 },
         data: {
-          label: type === 'conditional' ? 'If Condition' : `New ${type}`,
+          label: type === "conditional" ? "If Condition" : `New ${type}`,
           description:
-            type === 'conditional'
-              ? 'Define your condition'
+            type === "conditional"
+              ? "Define your condition"
               : `Description for ${type}`,
-          condition: type === 'conditional' ? 'value > 0' : undefined,
+          condition: type === "conditional" ? "value > 0" : undefined,
         },
       };
       addNodeWithButton(newNode, selectedNodeId);
@@ -189,7 +196,7 @@ export default function NodeSidebar() {
   return (
     <div
       className={`fixed inset-y-0 right-0 w-80 bg-white shadow-lg border-l border-gray-200 transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+        isOpen ? "translate-x-0" : "translate-x-full"
       } z-50`}
     >
       <div className="h-full flex flex-col">
