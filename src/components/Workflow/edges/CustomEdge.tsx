@@ -7,7 +7,7 @@ import AnimatedEdge from "./AnimatedEdge";
 
 function CustomEdge({
   id,
-  source,
+  target,
   sourceX,
   sourceY,
   targetX,
@@ -31,7 +31,7 @@ function CustomEdge({
   const openSidebar = useSidebarStore((state) => state.openSidebar);
   const processingNodes = useWorkflowStore((state) => state.processingNodes);
 
-  const isProcessing = processingNodes.has(source);
+  const isProcessing = processingNodes.has(target);
 
   // Calculate the angle between source and target points
   const angle = useMemo(() => {

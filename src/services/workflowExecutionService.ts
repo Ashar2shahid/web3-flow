@@ -57,7 +57,7 @@ export async function executeAndPollWorkflow(
     };
 
     // Start polling
-    pollInterval = setInterval(pollWorkflowStatus, 1000);
+    pollInterval = setInterval(pollWorkflowStatus, 100);
 
     // Return cleanup function
     return () => clearInterval(pollInterval);

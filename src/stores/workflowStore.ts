@@ -56,9 +56,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
     set((state) => {
       const newState = {
         nodes: state.nodes.filter((node) => node.id !== nodeId),
-        edges: state.edges.filter(
-          (edge) => edge.source !== nodeId && edge.target !== nodeId
-        ),
+        edges: state.edges.filter((edge) => edge.source !== nodeId && edge.target !== nodeId),
       };
       const updatedNodes = calculateLayout(newState.nodes, newState.edges);
       return { ...newState, nodes: updatedNodes };
@@ -78,9 +76,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
   updateNode: (nodeId: string, data: any) => {
     set((state) => ({
-      nodes: state.nodes.map((node) =>
-        node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
-      ),
+      nodes: state.nodes.map((node) => (node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node)),
     }));
   },
 
@@ -92,9 +88,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
     const replaceButton = nodes.find((node) => node.id === selectedReplaceId);
     if (!replaceButton) return;
 
-    const incomingEdge = edges.find(
-      (edge) => edge.target === selectedReplaceId
-    );
+    const incomingEdge = edges.find((edge) => edge.target === selectedReplaceId);
     if (!incomingEdge) return;
 
     newNode.position = { ...replaceButton.position };
@@ -224,11 +218,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
         data: { label: "Replace Me" },
       };
 
-      newNodes = [
-        ...nodes.filter((node) => node.id !== selectedReplaceId),
-        newNode,
-        newReplaceButton,
-      ];
+      newNodes = [...nodes.filter((node) => node.id !== selectedReplaceId), newNode, newReplaceButton];
 
       newEdges = [
         ...edges.filter((edge) => edge.target !== selectedReplaceId),
@@ -255,12 +245,19 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
   setNodeProcessing: (nodeId: string, isProcessing: boolean) => {
     set((state) => {
       const newProcessingNodes = new Set(state.processingNodes);
+      const newCompletedNodes = new Set(state.completedNodes);
+
       if (isProcessing) {
         newProcessingNodes.add(nodeId);
+        newCompletedNodes.delete(nodeId);
       } else {
         newProcessingNodes.delete(nodeId);
       }
-      return { processingNodes: newProcessingNodes };
+
+      return {
+        processingNodes: newProcessingNodes,
+        completedNodes: newCompletedNodes,
+      };
     });
   },
 
