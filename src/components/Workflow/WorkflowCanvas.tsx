@@ -32,6 +32,9 @@ import TaskModal from "./nodes/Task/TaskModal";
 import LoopModal from "./nodes/Loop/LoopModal";
 import EventListenerModal from "./nodes/EventListener/EventListenerModal";
 import SelectDataModal from "./nodes/SelectData/SelectDataModal";
+import TelegramModal from "./nodes/Telegram/TelegramModal";
+import CoinbaseModal from "./nodes/Coinbase/CoinbaseModal";
+import MoralisModal from "./nodes/Moralis/MoralisModal";
 
 const edgeTypes = {
   smoothstep: CustomEdge,
@@ -52,6 +55,9 @@ const nodeToModalType = {
   task: "task",
   loop: "loop",
   selectData: "selectData",
+  telegram: "telegram",
+  coinbase: "coinbase",
+  moralis: "moralis",
 } as const;
 
 export default function WorkflowCanvas() {
@@ -170,6 +176,9 @@ export default function WorkflowCanvas() {
       <TaskModal />
       <LoopModal />
       <SelectDataModal />
+      <TelegramModal />
+      <CoinbaseModal />
+      <MoralisModal />
     </div>
   );
 }

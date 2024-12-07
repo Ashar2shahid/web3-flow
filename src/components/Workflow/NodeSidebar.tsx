@@ -63,6 +63,12 @@ const nodeCategories = [
     name: "App",
     nodes: [
       {
+        type: "telegram",
+        label: "Telegram",
+        icon: ArrowRightLeft,
+        description: "Get notifications on Telegram",
+      },
+      {
         type: "uniswap",
         label: "Uniswap",
         icon: ArrowRightLeft,
@@ -108,6 +114,18 @@ const nodeCategories = [
   {
     name: "Web3",
     nodes: [
+      {
+        type: "moralis",
+        label: "Moralis",
+        icon: Wallet,
+        description: "Watch events and follow flow",
+      },
+      {
+        type: "coinbase",
+        label: "Coinbase",
+        icon: Wallet,
+        description: "Trade tokens on the go",
+      },
       {
         type: "eventListener",
         label: "Event Listener",

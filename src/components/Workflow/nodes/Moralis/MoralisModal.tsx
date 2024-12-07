@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { X } from "lucide-react";
+import { X, Eye, EyeOff } from "lucide-react";
 import { useModalStore } from "../../../../stores/modalStore";
 import { useWorkflowStore } from "../../../../stores/workflowStore";
 
-interface SelectDataConfig {
-  inputText: string;
+interface MoralisConfig {
+  address: string;
 }
 
-export default function SelectDataModal() {
+export default function MoralisModal() {
   const { isOpen, selectedNode, modalType, closeModal } = useModalStore();
   const updateNode = useWorkflowStore((state) => state.updateNode);
 
-  const [config, setConfig] = useState<SelectDataConfig>({
-    inputText: "",
+  const [showKey, setShowKey] = useState(false);
+  const [config, setConfig] = useState<MoralisConfig>({
+    address: "",
   });
 
-  if (!isOpen || !selectedNode || modalType !== "selectData") return null;
+  if (!isOpen || !selectedNode || modalType !== "moralis") return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateNode(selectedNode.id, {
       ...selectedNode.data,
       config: {
-        field: config.inputText,
+        address: config.address,
       },
     });
     closeModal();
@@ -30,37 +31,38 @@ export default function SelectDataModal() {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#2A2A2A] text-white rounded-lg shadow-xl w-full max-w-md">
+      <div className="bg-[#2A2A2A] text-white rounded-lg shadow-xl w-full max-w-2xl">
         <div className="flex justify-between items-center p-4 border-b border-gray-600">
-          <h2 className="text-lg font-semibold">Configure Select Data</h2>
-          <button
-            onClick={closeModal}
-            className="p-1 hover:bg-gray-700 rounded-full transition-colors"
-          >
-            <X className="h-5 w-5 text-gray-400" />
-          </button>
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold">
+              Configure Moralis Listener
+            </h2>
+          </div>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={closeModal}
+              className="p-1 hover:bg-gray-700 rounded-full transition-colors"
+            >
+              <X className="h-5 w-5 text-gray-400" />
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 space-y-6">
-          <div>
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Full input
+                Wallet to watch
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={config.inputText}
-                  onChange={(e) =>
-                    setConfig((prev) => ({
-                      ...prev,
-                      inputText: e.target.value,
-                    }))
-                  }
-                  className="w-full bg-[#3A3A3A] border-gray-600 rounded-md p-2 font-mono text-sm pr-10"
-                  placeholder="Enter input..."
-                />
-              </div>
+              <input
+                type="text"
+                value={config.address}
+                onChange={(e) =>
+                  setConfig((prev) => ({ ...prev, address: e.target.value }))
+                }
+                className="w-full bg-[#3A3A3A] border-gray-600 rounded-md p-2"
+                placeholder="Enter wallet address"
+              />
             </div>
           </div>
 
@@ -76,7 +78,7 @@ export default function SelectDataModal() {
               type="submit"
               className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700"
             >
-              Save Data
+              Watch Wallet
             </button>
           </div>
         </form>

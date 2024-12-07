@@ -12,6 +12,9 @@ import EmailNode from "./Email/EmailNode";
 import PrivateKeyNode from "./PrivateKey/PrivateKeyNode";
 import EventListenerNode from "./EventListener/EventListenerNode";
 import SelectDataNode from "./SelectData/SelectDataNode";
+import TelegramNode from "./Telegram/TelegramNode";
+import MoralisNode from "./Moralis/MoralisNode";
+import CoinbaseNode from "./Coinbase/CoinbaseNode";
 
 export const nodeTypes = {
   task: TaskNode,
@@ -30,4 +33,7 @@ export const nodeTypes = {
   email: EmailNode,
   privatekey: PrivateKeyNode,
   eventListener: EventListenerNode,
+  telegram: TelegramNode,
+  moralis: MoralisNode,
+  coinbase: CoinbaseNode,
 };
