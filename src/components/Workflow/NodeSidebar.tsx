@@ -76,7 +76,7 @@ const nodeCategories = [
         description: "Get ERC20 token transfers by contract",
       },
       {
-        type: "moralis-transfer",
+        type: "moralis-swap",
         label: "Swaps by token address",
         icon: Wallet,
         description: "Get Swaps by Token Address",
