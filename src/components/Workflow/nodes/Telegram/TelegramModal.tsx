@@ -5,6 +5,7 @@ import { useWorkflowStore } from "../../../../stores/workflowStore";
 
 interface TelegramConfig {
   inputText: string;
+  message: "";
 }
 
 export default function TelegramModal() {
@@ -13,6 +14,7 @@ export default function TelegramModal() {
 
   const [config, setConfig] = useState<TelegramConfig>({
     inputText: "",
+    message: "",
   });
 
   if (!isOpen || !selectedNode || modalType !== "telegram") return null;
@@ -63,6 +65,23 @@ export default function TelegramModal() {
                     setConfig((prev) => ({
                       ...prev,
                       inputText: e.target.value,
+                    }))
+                  }
+                  className="w-full bg-[#3A3A3A] border-gray-600 rounded-md p-2 font-mono text-sm pr-10"
+                  placeholder="Enter username here"
+                />
+              </div>
+              <label className="block text-sm font-medium text-gray-300 mb-2 mt-3">
+                Message
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={config.message}
+                  onChange={(e) =>
+                    setConfig((prev) => ({
+                      ...prev,
+                      message: e.target.value,
                     }))
                   }
                   className="w-full bg-[#3A3A3A] border-gray-600 rounded-md p-2 font-mono text-sm pr-10"

@@ -5,7 +5,7 @@ import { useWorkflowStore } from "../../../../stores/workflowStore";
 
 interface CoinbaseConfig {
   inputText: string;
-  yourTokenAdd: string;
+  fromToken: string;
 }
 
 export default function CoinbaseModal() {
@@ -14,7 +14,7 @@ export default function CoinbaseModal() {
 
   const [config, setConfig] = useState<CoinbaseConfig>({
     inputText: "",
-    yourTokenAdd: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    fromToken: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   });
 
   if (!isOpen || !selectedNode || modalType !== "coinbase") return null;
@@ -25,7 +25,7 @@ export default function CoinbaseModal() {
       ...selectedNode.data,
       config: {
         amount: config.inputText,
-        yourTokenAdd: config.yourTokenAdd,
+        fromToken: config.fromToken,
       },
     });
     closeModal();
