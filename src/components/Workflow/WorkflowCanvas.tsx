@@ -36,6 +36,8 @@ import TelegramModal from "./nodes/Telegram/TelegramModal";
 import CoinbaseModal from "./nodes/Coinbase/CoinbaseModal";
 import MoralisModal from "./nodes/Moralis/MoralisModal";
 import CoinbaseWalletModal from "./nodes/CoinbaseWallet/CoinbaseWalletModal";
+import GoogleSheetsModal from "./nodes/GoogleSheets/GoogleSheetsModal";
+import DeployNFTModal from "./nodes/DeployNFT/DeployNFTModal";
 
 const edgeTypes = {
   smoothstep: CustomEdge,
@@ -60,6 +62,8 @@ const nodeToModalType = {
   coinbase: "coinbase",
   coinbaseWallet: "coinbaseWallet",
   moralis: "moralis",
+  googleSheets: "googleSheets",
+  deployNFT: "deployNFT",
 } as const;
 
 export default function WorkflowCanvas() {
@@ -107,7 +111,7 @@ export default function WorkflowCanvas() {
         type,
         position,
         data: {
-          label: type === "conditional" ? "If Condition" : `New ${type}`,
+          label: type === "conditional" ? "If Condition" : `${type}`,
           description:
             type === "conditional"
               ? "Define your condition"
@@ -180,6 +184,8 @@ export default function WorkflowCanvas() {
       <CoinbaseModal />
       <CoinbaseWalletModal />
       <MoralisModal />
+      <GoogleSheetsModal />
+      <DeployNFTModal />
     </div>
   );
 }

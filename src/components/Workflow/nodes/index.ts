@@ -16,6 +16,8 @@ import TelegramNode from "./Telegram/TelegramNode";
 import MoralisNode from "./Moralis/MoralisNode";
 import CoinbaseNode from "./Coinbase/CoinbaseNode";
 import CoinbaseWalletNode from "./CoinbaseWallet/CoinbaseWalletNode";
+import GoogleSheetsNode from "./GoogleSheets/GoogleSheetsNode";
+import DeployNFTNode from "./DeployNFT/DeployNFTNode";
 
 export const nodeTypes = {
   task: TaskNode,
@@ -38,4 +40,6 @@ export const nodeTypes = {
   moralis: MoralisNode,
   coinbase: CoinbaseNode,
   coinbaseWallet: CoinbaseWalletNode,
+  googleSheets: GoogleSheetsNode,
+  deployNFT: DeployNFTNode,
 };

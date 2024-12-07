@@ -129,7 +129,7 @@ const nodeCategories = [
     name: "App",
     nodes: [
       {
-        type: "googlesheets",
+        type: "googleSheets",
         label: "Google Sheets",
         icon: Table,
         description: "Interact with Google Sheets",
@@ -175,6 +175,12 @@ const nodeCategories = [
   {
     name: "Web3",
     nodes: [
+      {
+        type: "deployNFT",
+        label: "Deploy & Mint",
+        icon: Table,
+        description: "Deploy contract and mint NFTs",
+      },
       {
         type: "eventListener",
         label: "Event Listener",
@@ -253,7 +259,7 @@ export default function NodeSidebar() {
         type,
         position: { x: 0, y: 0 },
         data: {
-          label: type === "conditional" ? "If Condition" : `New ${type}`,
+          label: type === "conditional" ? "If Condition" : ` ${type}`,
           description:
             type === "conditional"
               ? "Define your condition"
