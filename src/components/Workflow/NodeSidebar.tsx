@@ -19,6 +19,7 @@ import {
   Globe,
   RefreshCw,
   X,
+  MessageCircleHeart,
 } from "lucide-react";
 import { useWorkflowStore } from "../../stores/workflowStore";
 import { useSidebarStore } from "../../stores/sidebarStore";
@@ -29,21 +30,21 @@ const nodeCategories = [
     nodes: [
       {
         type: "moralis",
-        label: "Swap",
+        label: "Token transfers by wallet",
         icon: Wallet,
-        description: "Watch exchange swap of any wallet",
+        description: "Get ERC20 token transfers by wallet",
       },
       {
         type: "moralis-transfer",
-        label: "Transfer",
+        label: "Token transfers by contract",
         icon: Wallet,
-        description: "Watch transfer events of any wallet",
+        description: "Get ERC20 token transfers by contract",
       },
       {
         type: "moralis-transfer",
-        label: "NFT mint",
+        label: "Swaps by token address",
         icon: Wallet,
-        description: "Watch NFT mint events of a wallet",
+        description: "Get Swaps by Token Address",
       },
     ],
   },
@@ -52,21 +53,32 @@ const nodeCategories = [
     nodes: [
       {
         type: "coinbase",
-        label: "Swap",
+        label: "Swap tokens",
         icon: Wallet,
         description: "Trade tokens on the go",
       },
       {
-        type: "moralis-transfer",
-        label: "Transfer",
+        type: "coinbase-liquidity",
+        label: "Add Liquidity",
         icon: Wallet,
-        description: "Watch transfer events of any wallet",
+        description: "Add liquidity in the pool",
+      },
+    ],
+  },
+  {
+    name: "Telegram",
+    nodes: [
+      {
+        type: "telegram",
+        label: "Get notifications",
+        icon: MessageCircleHeart,
+        description: "Get notifications on Telegram",
       },
       {
-        type: "moralis-transfer",
-        label: "NFT mint",
-        icon: Wallet,
-        description: "Watch NFT mint events of a wallet",
+        type: "telegram-message",
+        label: "Send Message",
+        icon: MessageCircleHeart,
+        description: "Message any telegram user",
       },
     ],
   },
@@ -108,12 +120,6 @@ const nodeCategories = [
   {
     name: "App",
     nodes: [
-      {
-        type: "telegram",
-        label: "Telegram",
-        icon: ArrowRightLeft,
-        description: "Get notifications on Telegram",
-      },
       {
         type: "uniswap",
         label: "Uniswap",
@@ -160,18 +166,6 @@ const nodeCategories = [
   {
     name: "Web3",
     nodes: [
-      {
-        type: "moralis",
-        label: "Moralis",
-        icon: Wallet,
-        description: "Watch events and follow flow",
-      },
-      {
-        type: "coinbase",
-        label: "Coinbase",
-        icon: Wallet,
-        description: "Trade tokens on the go",
-      },
       {
         type: "eventListener",
         label: "Event Listener",
