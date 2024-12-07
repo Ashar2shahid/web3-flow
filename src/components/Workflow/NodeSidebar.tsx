@@ -182,7 +182,7 @@ export default function NodeSidebar() {
   const handleNodeSelect = (type: string) => {
     if (selectedNodeId) {
       const newNode = {
-        id: `${type}-${Date.now()}`,
+        id: `${selectedNodeId}`,
         type,
         position: { x: 0, y: 0 },
         data: {

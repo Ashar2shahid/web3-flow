@@ -5,7 +5,7 @@ import { calculateLayout } from "../utils/layoutUtils";
 type WorkflowStore = {
   nodes: Node[];
   edges: Edge[];
-  addNodeWithButton: (node: Node) => void;
+  addNodeWithButton: (node: Node, nodeId: string) => void;
   removeEdge: (edgeId: string) => void;
   removeNode: (nodeId: string) => void;
   updateNode: (nodeId: string, data: any) => void;
@@ -20,7 +20,7 @@ const initialNodes: Node[] = [
     data: { label: "Start" },
   },
   {
-    id: "replace-start",
+    id: "2",
     type: "replace",
     position: { x: 150, y: 0 },
     data: { label: "Replace Me" },
@@ -29,9 +29,9 @@ const initialNodes: Node[] = [
 
 const initialEdges: Edge[] = [
   {
-    id: "start-to-replace",
+    id: "start-2",
     source: "start",
-    target: "replace-start",
+    target: "2",
     type: "smoothstep",
   },
 ];
@@ -77,16 +77,12 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
   addNodeWithButton: (newNode: Node, selectedReplaceId?: string) => {
     const { nodes, edges } = get();
 
-    const replaceButtonId =
-      selectedReplaceId ||
-      nodes.find((node) => node.type === "replace" && edges.some((edge) => edge.target === node.id))?.id;
-
-    if (!replaceButtonId) return;
-
-    const replaceButton = nodes.find((node) => node.id === replaceButtonId);
+    if (!selectedReplaceId) return;
+ 
+    const replaceButton = nodes.find((node) => node.id === selectedReplaceId);
     if (!replaceButton) return;
 
-    const incomingEdge = edges.find((edge) => edge.target === replaceButtonId);
+    const incomingEdge = edges.find((edge) => edge.target === selectedReplaceId);
     if (!incomingEdge) return;
 
     newNode.position = { ...replaceButton.position };
@@ -101,28 +97,28 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
     if (newNode.type === "conditional") {
       const trueReplaceButton: Node = {
-        id: `replace-${newNode.id}-true`,
+        id: `${crypto.randomUUID()}`,
         type: "replace",
         position: { x: newNode.position.x + 150, y: newNode.position.y - 50 },
         data: { label: "Replace Me" },
       };
 
       const falseReplaceButton: Node = {
-        id: `replace-${newNode.id}-false`,
+        id: `${crypto.randomUUID()}`,
         type: "replace",
         position: { x: newNode.position.x + 150, y: newNode.position.y + 50 },
         data: { label: "Replace Me" },
       };
 
       newNodes = [
-        ...nodes.filter((node) => node.id !== replaceButtonId),
+        ...nodes.filter((node) => node.id !== selectedReplaceId),
         { ...newNode, data: { ...newNode.data, trueId: trueReplaceButton.id, falseId: falseReplaceButton.id } },
         trueReplaceButton,
         falseReplaceButton,
       ];
 
       newEdges = [
-        ...edges.filter((edge) => edge.target !== replaceButtonId),
+        ...edges.filter((edge) => edge.target !== selectedReplaceId),
         {
           id: `${incomingEdge.source}-to-${newNode.id}`,
           source: incomingEdge.source,
@@ -147,28 +143,28 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
       ];
     } else if (newNode.type === "loop") {
       const doneReplaceButton: Node = {
-        id: `replace-${newNode.id}-done`,
+        id: `${crypto.randomUUID()}`,
         type: "replace",
         position: { x: newNode.position.x + 150, y: newNode.position.y - 50 },
         data: { label: "Replace Me" },
       };
 
       const loopReplaceButton: Node = {
-        id: `replace-${newNode.id}-loop`,
+        id: `${crypto.randomUUID()}`,
         type: "replace",
         position: { x: newNode.position.x + 150, y: newNode.position.y + 50 },
         data: { label: "Replace Me" },
       };
 
       newNodes = [
-        ...nodes.filter((node) => node.id !== replaceButtonId),
+        ...nodes.filter((node) => node.id !== selectedReplaceId),
         { ...newNode, data: { ...newNode.data, loopId: loopReplaceButton.id, doneId: doneReplaceButton.id } },
         doneReplaceButton,
         loopReplaceButton,
       ];
 
       newEdges = [
-        ...edges.filter((edge) => edge.target !== replaceButtonId),
+        ...edges.filter((edge) => edge.target !== selectedReplaceId),
         {
           id: `${incomingEdge.source}-to-${newNode.id}`,
           source: incomingEdge.source,
@@ -193,7 +189,7 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
       ];
     } else {
       const newReplaceButton: Node = {
-        id: `replace-${newNode.id}`,
+        id: `${crypto.randomUUID()}`,
         type: "replace",
         position: {
           x: newNode.position.x + 150,
@@ -202,10 +198,10 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
         data: { label: "Replace Me" },
       };
 
-      newNodes = [...nodes.filter((node) => node.id !== replaceButtonId), newNode, newReplaceButton];
+      newNodes = [...nodes.filter((node) => node.id !== selectedReplaceId), newNode, newReplaceButton];
 
       newEdges = [
-        ...edges.filter((edge) => edge.target !== replaceButtonId),
+        ...edges.filter((edge) => edge.target !== selectedReplaceId),
         {
           id: `${incomingEdge.source}-to-${newNode.id}`,
           source: incomingEdge.source,
