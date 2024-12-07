@@ -25,6 +25,52 @@ import { useSidebarStore } from "../../stores/sidebarStore";
 
 const nodeCategories = [
   {
+    name: "Moralis",
+    nodes: [
+      {
+        type: "moralis",
+        label: "Swap",
+        icon: Wallet,
+        description: "Watch exchange swap of any wallet",
+      },
+      {
+        type: "moralis-transfer",
+        label: "Transfer",
+        icon: Wallet,
+        description: "Watch transfer events of any wallet",
+      },
+      {
+        type: "moralis-transfer",
+        label: "NFT mint",
+        icon: Wallet,
+        description: "Watch NFT mint events of a wallet",
+      },
+    ],
+  },
+  {
+    name: "Coinbase",
+    nodes: [
+      {
+        type: "coinbase",
+        label: "Swap",
+        icon: Wallet,
+        description: "Trade tokens on the go",
+      },
+      {
+        type: "moralis-transfer",
+        label: "Transfer",
+        icon: Wallet,
+        description: "Watch transfer events of any wallet",
+      },
+      {
+        type: "moralis-transfer",
+        label: "NFT mint",
+        icon: Wallet,
+        description: "Watch NFT mint events of a wallet",
+      },
+    ],
+  },
+  {
     name: "Flow",
     nodes: [
       {

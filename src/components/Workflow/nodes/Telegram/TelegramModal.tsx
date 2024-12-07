@@ -5,7 +5,7 @@ import { useWorkflowStore } from "../../../../stores/workflowStore";
 
 interface TelegramConfig {
   inputText: string;
-  message: "";
+  message: string;
 }
 
 export default function TelegramModal() {
@@ -25,6 +25,7 @@ export default function TelegramModal() {
       ...selectedNode.data,
       config: {
         username: config.inputText,
+        message: config.message,
       },
     });
     closeModal();
@@ -72,7 +73,7 @@ export default function TelegramModal() {
                 />
               </div>
               <label className="block text-sm font-medium text-gray-300 mb-2 mt-3">
-                Message
+                3. Message
               </label>
               <div className="relative">
                 <input
@@ -85,7 +86,7 @@ export default function TelegramModal() {
                     }))
                   }
                   className="w-full bg-[#3A3A3A] border-gray-600 rounded-md p-2 font-mono text-sm pr-10"
-                  placeholder="Enter username here"
+                  placeholder="Enter message config here..."
                 />
               </div>
             </div>
