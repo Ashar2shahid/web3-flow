@@ -4,6 +4,7 @@ import { Panel } from "reactflow";
 import { useWorkflowStore } from "../../stores/workflowStore";
 import { executeWorkflow } from "../../utils/apiUtils";
 import { simulateWorkflowExecution } from "../../utils/testUtils";
+import { executeAndPollWorkflow } from "../../services/workflowExecutionService";
 
 // WebSocket Integration Guide:
 // 1. Connect to WebSocket when workflow execution starts
@@ -33,8 +34,10 @@ import { simulateWorkflowExecution } from "../../utils/testUtils";
 // });
 
 export default function ExecuteFlowButton() {
-  const { nodes, edges } = useWorkflowStore();
+  const { nodes, edges, setNodeProcessing, setNodeCompleted } =
+    useWorkflowStore();
   const [isExecuting, setIsExecuting] = React.useState(false);
+  const cleanupRef = React.useRef<(() => void) | null>(null);
 
   const handleExecute = async (
     e: React.MouseEvent,
@@ -48,20 +51,44 @@ export default function ExecuteFlowButton() {
 
       if (isTest) {
         await simulateWorkflowExecution(nodes);
+        setIsExecuting(false);
       } else {
-        // When implementing real execution:
-        // 1. Connect to WebSocket
-        // 2. Send workflow data to backend
-        // 3. Listen for node status updates
-        // 4. Clean up WebSocket on completion
-        await executeWorkflow({ nodes, edges });
+        // Cleanup previous execution if exists
+        if (cleanupRef.current) {
+          cleanupRef.current();
+        }
+
+        // Start new execution
+        cleanupRef.current = await executeAndPollWorkflow(
+          { nodes, edges },
+          { setNodeProcessing, setNodeCompleted },
+          {
+            onComplete: () => {
+              setIsExecuting(false);
+              cleanupRef.current = null;
+            },
+            onError: (error) => {
+              console.error("Failed to execute workflow:", error);
+              setIsExecuting(false);
+              cleanupRef.current = null;
+            },
+          }
+        );
       }
     } catch (error) {
       console.error("Failed to execute workflow:", error);
-    } finally {
       setIsExecuting(false);
     }
   };
+
+  // Cleanup on unmount
+  React.useEffect(() => {
+    return () => {
+      if (cleanupRef.current) {
+        cleanupRef.current();
+      }
+    };
+  }, []);
 
   return (
     <Panel position="bottom-center">
