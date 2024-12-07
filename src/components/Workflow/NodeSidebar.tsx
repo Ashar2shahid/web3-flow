@@ -26,6 +26,41 @@ import { useSidebarStore } from "../../stores/sidebarStore";
 
 const nodeCategories = [
   {
+    name: "Flow",
+    nodes: [
+      {
+        type: "conditional",
+        label: "If Condition",
+        icon: GitBranch,
+        description: "Branch workflow based on condition",
+      },
+      {
+        type: "loop",
+        label: "Loop",
+        icon: RefreshCw,
+        description: "Loop over items",
+      },
+      {
+        type: "selectData",
+        label: "SelectData",
+        icon: Filter,
+        description: "Set input parameter",
+      },
+      {
+        type: "switch",
+        label: "Switch",
+        icon: GitBranch,
+        description: "Multiple conditional branches",
+      },
+      {
+        type: "delay",
+        label: "Time Delay",
+        icon: TimerReset,
+        description: "Add delay between steps",
+      },
+    ],
+  },
+  {
     name: "Moralis",
     nodes: [
       {
@@ -82,44 +117,16 @@ const nodeCategories = [
       },
     ],
   },
-  {
-    name: "Flow",
-    nodes: [
-      {
-        type: "conditional",
-        label: "If Condition",
-        icon: GitBranch,
-        description: "Branch workflow based on condition",
-      },
-      {
-        type: "loop",
-        label: "Loop",
-        icon: RefreshCw,
-        description: "Loop over items",
-      },
-      {
-        type: "selectData",
-        label: "SelectData",
-        icon: Filter,
-        description: "Set input parameter",
-      },
-      {
-        type: "switch",
-        label: "Switch",
-        icon: GitBranch,
-        description: "Multiple conditional branches",
-      },
-      {
-        type: "delay",
-        label: "Time Delay",
-        icon: TimerReset,
-        description: "Add delay between steps",
-      },
-    ],
-  },
+
   {
     name: "App",
     nodes: [
+      {
+        type: "googlesheets",
+        label: "Google Sheets",
+        icon: Table,
+        description: "Interact with Google Sheets",
+      },
       {
         type: "uniswap",
         label: "Uniswap",
@@ -131,12 +138,6 @@ const nodeCategories = [
         label: "Text Screener",
         icon: FileText,
         description: "Screen and analyze text content",
-      },
-      {
-        type: "googlesheets",
-        label: "Google Sheets",
-        icon: Table,
-        description: "Interact with Google Sheets",
       },
     ],
   },
