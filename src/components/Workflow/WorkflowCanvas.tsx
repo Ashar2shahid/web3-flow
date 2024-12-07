@@ -67,8 +67,6 @@ export default function WorkflowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(store.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(store.edges);
 
-  console.log(nodes);
-
   const [reactFlowInstance, setReactFlowInstance] =
     React.useState<ReactFlowInstance | null>(null);
 

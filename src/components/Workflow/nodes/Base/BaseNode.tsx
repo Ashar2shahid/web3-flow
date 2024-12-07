@@ -1,13 +1,13 @@
-import React, { memo } from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
-import { Trash2 } from 'lucide-react';
-import { handleStyles } from '../../styles/nodeStyles';
-import { useWorkflowStore } from '../../../../stores/workflowStore';
+import React, { memo } from "react";
+import { Handle, Position, NodeProps } from "reactflow";
+import { Trash2 } from "lucide-react";
+import { handleStyles } from "../../styles/nodeStyles";
+import { useWorkflowStore } from "../../../../stores/workflowStore";
 
 export interface Port {
   id: string;
   label: string;
-  type: 'input' | 'output';
+  type: "input" | "output";
   position?: Position;
   style?: React.CSSProperties;
 }
@@ -22,10 +22,11 @@ function BaseNode({
   data,
   id,
   icon: Icon,
-  inputs = [{ id: 'default', label: '', type: 'input' }],
-  outputs = [{ id: 'default', label: '', type: 'output' }],
+  inputs = [{ id: "default", label: "", type: "input" }],
+  outputs = [{ id: "default", label: "", type: "output" }],
 }: BaseNodeProps) {
   const removeNode = useWorkflowStore((state) => state.removeNode);
+  const isCompleted = useWorkflowStore((state) => state.completedNodes.has(id));
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -56,7 +57,7 @@ function BaseNode({
           className="absolute top-0 -left-3 h-full flex flex-col items-center"
           style={{
             top: `${getPortPosition(index, inputs.length)}%`,
-            transform: 'translateY(-50%)',
+            transform: "translateY(-50%)",
           }}
         >
           {input.label && (
@@ -75,8 +76,20 @@ function BaseNode({
         </div>
       ))}
 
-      <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white border border-gray-200 shadow-sm">
-        {Icon && <Icon className="h-6 w-6 text-primary-500" />}
+      <div
+        className={`w-12 h-12 flex items-center justify-center rounded-lg bg-white border shadow-sm transition-colors ${
+          isCompleted
+            ? "border-green-500 shadow-[0_0_0_1px_rgba(34,197,94,0.5)]"
+            : "border-gray-200"
+        }`}
+      >
+        {Icon && (
+          <Icon
+            className={`h-6 w-6 ${
+              isCompleted ? "text-green-500" : "text-primary-500"
+            }`}
+          />
+        )}
       </div>
 
       <div className="mt-1 text-[10px] text-gray-500 text-center max-w-[80px] truncate">
@@ -89,7 +102,7 @@ function BaseNode({
           className="absolute top-0 -right-3 h-full flex flex-col items-center"
           style={{
             top: `${getPortPosition(index, outputs.length)}%`,
-            transform: 'translateY(-50%)',
+            transform: "translateY(-50%)",
           }}
         >
           {output.label && (

@@ -1,11 +1,13 @@
-import React, { memo, useState, useMemo } from 'react';
-import { EdgeProps, getSmoothStepPath } from 'reactflow';
-import { X, Plus } from 'lucide-react';
-import { useWorkflowStore } from '../../../stores/workflowStore';
-import { useSidebarStore } from '../../../stores/sidebarStore';
+import React, { memo, useState, useMemo } from "react";
+import { EdgeProps, getSmoothStepPath } from "reactflow";
+import { X, Plus } from "lucide-react";
+import { useWorkflowStore } from "../../../stores/workflowStore";
+import { useSidebarStore } from "../../../stores/sidebarStore";
+import AnimatedEdge from "./AnimatedEdge";
 
 function CustomEdge({
   id,
+  source,
   sourceX,
   sourceY,
   targetX,
@@ -27,6 +29,9 @@ function CustomEdge({
 
   const removeEdge = useWorkflowStore((state) => state.removeEdge);
   const openSidebar = useSidebarStore((state) => state.openSidebar);
+  const processingNodes = useWorkflowStore((state) => state.processingNodes);
+
+  const isProcessing = processingNodes.has(source);
 
   // Calculate the angle between source and target points
   const angle = useMemo(() => {
@@ -38,7 +43,10 @@ function CustomEdge({
   // Determine if the line is more vertical than horizontal
   const isVertical = Math.abs(angle) > 45 && Math.abs(angle) < 135;
 
-  const onEdgeClick = (evt: React.MouseEvent<HTMLButtonElement>, id: string) => {
+  const onEdgeClick = (
+    evt: React.MouseEvent<HTMLButtonElement>,
+    id: string
+  ) => {
     evt.stopPropagation();
     removeEdge(id);
   };
@@ -47,6 +55,22 @@ function CustomEdge({
     evt.stopPropagation();
     openSidebar(id);
   };
+
+  if (isProcessing) {
+    return (
+      <AnimatedEdge
+        id={id}
+        sourceX={sourceX}
+        sourceY={sourceY}
+        targetX={targetX}
+        targetY={targetY}
+        sourcePosition={sourcePosition}
+        targetPosition={targetPosition}
+        style={style}
+        markerEnd={markerEnd}
+      />
+    );
+  }
 
   return (
     <g
@@ -70,7 +94,11 @@ function CustomEdge({
           className="overflow-visible pointer-events-none"
           requiredExtensions="http://www.w3.org/1999/xhtml"
         >
-          <div className={`flex ${isVertical ? 'flex-col' : ''} gap-1 pointer-events-auto`}>
+          <div
+            className={`flex ${
+              isVertical ? "flex-col" : ""
+            } gap-1 pointer-events-auto`}
+          >
             <button
               className="flex items-center justify-center w-5 h-5 rounded-full bg-white border border-gray-300 hover:bg-red-50 hover:border-red-300 transition-colors group shadow-sm"
               onClick={(event) => onEdgeClick(event, id)}

@@ -10,6 +10,10 @@ type WorkflowStore = {
   removeNode: (nodeId: string) => void;
   updateNode: (nodeId: string, data: any) => void;
   updateLayout: () => void;
+  processingNodes: Set<string>;
+  setNodeProcessing: (nodeId: string, isProcessing: boolean) => void;
+  completedNodes: Set<string>;
+  setNodeCompleted: (nodeId: string, isCompleted: boolean) => void;
 };
 
 const initialNodes: Node[] = [
@@ -39,6 +43,8 @@ const initialEdges: Edge[] = [
 export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
+  processingNodes: new Set<string>(),
+  completedNodes: new Set<string>(),
 
   updateLayout: () => {
     const { nodes, edges } = get();
@@ -50,7 +56,9 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
     set((state) => {
       const newState = {
         nodes: state.nodes.filter((node) => node.id !== nodeId),
-        edges: state.edges.filter((edge) => edge.source !== nodeId && edge.target !== nodeId),
+        edges: state.edges.filter(
+          (edge) => edge.source !== nodeId && edge.target !== nodeId
+        ),
       };
       const updatedNodes = calculateLayout(newState.nodes, newState.edges);
       return { ...newState, nodes: updatedNodes };
@@ -70,7 +78,9 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
   updateNode: (nodeId: string, data: any) => {
     set((state) => ({
-      nodes: state.nodes.map((node) => (node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node)),
+      nodes: state.nodes.map((node) =>
+        node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
+      ),
     }));
   },
 
@@ -78,11 +88,13 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
     const { nodes, edges } = get();
 
     if (!selectedReplaceId) return;
- 
+
     const replaceButton = nodes.find((node) => node.id === selectedReplaceId);
     if (!replaceButton) return;
 
-    const incomingEdge = edges.find((edge) => edge.target === selectedReplaceId);
+    const incomingEdge = edges.find(
+      (edge) => edge.target === selectedReplaceId
+    );
     if (!incomingEdge) return;
 
     newNode.position = { ...replaceButton.position };
@@ -112,7 +124,14 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
       newNodes = [
         ...nodes.filter((node) => node.id !== selectedReplaceId),
-        { ...newNode, data: { ...newNode.data, trueId: trueReplaceButton.id, falseId: falseReplaceButton.id } },
+        {
+          ...newNode,
+          data: {
+            ...newNode.data,
+            trueId: trueReplaceButton.id,
+            falseId: falseReplaceButton.id,
+          },
+        },
         trueReplaceButton,
         falseReplaceButton,
       ];
@@ -158,7 +177,14 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
       newNodes = [
         ...nodes.filter((node) => node.id !== selectedReplaceId),
-        { ...newNode, data: { ...newNode.data, loopId: loopReplaceButton.id, doneId: doneReplaceButton.id } },
+        {
+          ...newNode,
+          data: {
+            ...newNode.data,
+            loopId: loopReplaceButton.id,
+            doneId: doneReplaceButton.id,
+          },
+        },
         doneReplaceButton,
         loopReplaceButton,
       ];
@@ -198,7 +224,11 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
         data: { label: "Replace Me" },
       };
 
-      newNodes = [...nodes.filter((node) => node.id !== selectedReplaceId), newNode, newReplaceButton];
+      newNodes = [
+        ...nodes.filter((node) => node.id !== selectedReplaceId),
+        newNode,
+        newReplaceButton,
+      ];
 
       newEdges = [
         ...edges.filter((edge) => edge.target !== selectedReplaceId),
@@ -220,5 +250,36 @@ export const useWorkflowStore = create<WorkflowStore>((set, get) => ({
 
     const updatedNodes = calculateLayout(newNodes, newEdges);
     set({ nodes: updatedNodes, edges: newEdges });
+  },
+
+  setNodeProcessing: (nodeId: string, isProcessing: boolean) => {
+    set((state) => {
+      const newProcessingNodes = new Set(state.processingNodes);
+      if (isProcessing) {
+        newProcessingNodes.add(nodeId);
+      } else {
+        newProcessingNodes.delete(nodeId);
+      }
+      return { processingNodes: newProcessingNodes };
+    });
+  },
+
+  setNodeCompleted: (nodeId: string, isCompleted: boolean) => {
+    set((state) => {
+      const newCompletedNodes = new Set(state.completedNodes);
+      const newProcessingNodes = new Set(state.processingNodes);
+
+      if (isCompleted) {
+        newCompletedNodes.add(nodeId);
+        newProcessingNodes.delete(nodeId);
+      } else {
+        newCompletedNodes.delete(nodeId);
+      }
+
+      return {
+        completedNodes: newCompletedNodes,
+        processingNodes: newProcessingNodes,
+      };
+    });
   },
 }));
