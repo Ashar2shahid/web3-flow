@@ -15,6 +15,7 @@ import SelectDataNode from "./SelectData/SelectDataNode";
 import TelegramNode from "./Telegram/TelegramNode";
 import MoralisNode from "./Moralis/MoralisNode";
 import CoinbaseNode from "./Coinbase/CoinbaseNode";
+import CoinbaseWalletNode from "./CoinbaseWallet/CoinbaseWalletNode";
 
 export const nodeTypes = {
   task: TaskNode,
@@ -36,4 +37,5 @@ export const nodeTypes = {
   telegram: TelegramNode,
   moralis: MoralisNode,
   coinbase: CoinbaseNode,
+  coinbaseWallet: CoinbaseWalletNode,
 };

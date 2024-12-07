@@ -92,11 +92,18 @@ const nodeCategories = [
         icon: Wallet,
         description: "Trade tokens on the go",
       },
+
       {
         type: "coinbase-liquidity",
         label: "Add Liquidity",
         icon: Wallet,
         description: "Add liquidity in the pool",
+      },
+      {
+        type: "coinbaseWallet",
+        label: "Coinbase Wallet",
+        icon: Table,
+        description: "Access Coinbase wallet",
       },
     ],
   },
@@ -127,6 +134,7 @@ const nodeCategories = [
         icon: Table,
         description: "Interact with Google Sheets",
       },
+
       {
         type: "uniswap",
         label: "Uniswap",

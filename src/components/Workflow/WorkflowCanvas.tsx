@@ -35,6 +35,7 @@ import SelectDataModal from "./nodes/SelectData/SelectDataModal";
 import TelegramModal from "./nodes/Telegram/TelegramModal";
 import CoinbaseModal from "./nodes/Coinbase/CoinbaseModal";
 import MoralisModal from "./nodes/Moralis/MoralisModal";
+import CoinbaseWalletModal from "./nodes/CoinbaseWallet/CoinbaseWalletModal";
 
 const edgeTypes = {
   smoothstep: CustomEdge,
@@ -57,6 +58,7 @@ const nodeToModalType = {
   selectData: "selectData",
   telegram: "telegram",
   coinbase: "coinbase",
+  coinbaseWallet: "coinbaseWallet",
   moralis: "moralis",
 } as const;
 
@@ -176,6 +178,7 @@ export default function WorkflowCanvas() {
       <SelectDataModal />
       <TelegramModal />
       <CoinbaseModal />
+      <CoinbaseWalletModal />
       <MoralisModal />
     </div>
   );
