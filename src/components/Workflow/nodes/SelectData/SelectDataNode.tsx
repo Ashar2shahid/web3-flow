@@ -21,15 +21,7 @@ const outputs: Port[] = [
 ];
 
 function SelectDataNode({ data, ...props }: NodeProps) {
-  return (
-    <BaseNode
-      data={data}
-      icon={Filter}
-      inputs={inputs}
-      outputs={outputs}
-      {...props}
-    />
-  );
+  return <BaseNode data={data} icon={Filter} {...props} />;
 }
 
 export default memo(SelectDataNode);
